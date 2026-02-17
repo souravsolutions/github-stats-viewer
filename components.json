@@ -19,5 +19,8 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "registries": {}
+  "registries": {
+    "@intentui": "https://intentui.com/r/{name}",
+    "@magicui": "https://magicui.design/r/{name}"
+  }
 }
