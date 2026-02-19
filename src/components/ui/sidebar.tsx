@@ -262,7 +262,7 @@ const Sidebar = ({
             "group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-dock)+--spacing(2)+2px)] dark:bg-bg",
           intent === "default" && [
             "group-data-[collapsible=dock]:w-(--sidebar-width-dock)",
-            "border-sidebar-border group-data-[side=left]:border-r group-data-[side=right]:border-l",
+            "border-sidebar-border/50 group-data-[side=left]:border-r group-data-[side=right]:border-l",
           ],
           className,
         )}
@@ -273,7 +273,7 @@ const Sidebar = ({
           data-slot="sidebar-inner"
           className={twJoin(
             "flex h-full w-full flex-col text-sidebar-fg",
-            "group-data-[intent=float]:rounded-lg group-data-[intent=float]:border group-data-[intent=float]:border-sidebar-border group-data-[intent=float]:bg-sidebar group-data-[intent=float]:shadow-xs",
+            "group-data-[intent=float]:rounded-lg group-data-[intent=float]:border group-data-[intent=float]:border-sidebar-border/50 group-data-[intent=float]:bg-sidebar group-data-[intent=float]:shadow-xs",
           )}
         >
           {children}
@@ -422,7 +422,7 @@ const SidebarItem = ({
             "[&:has([data-slot=avatar]+[data-slot=sidebar-label])_[data-slot=avatar]:has(+[data-slot=sidebar-label])]:me-2",
             "[--sidebar-current-bg:var(--color-sidebar-primary)] [--sidebar-current-fg:var(--color-sidebar-primary-fg)]",
             isCurrent &&
-              "font-medium text-(--sidebar-current-fg) hover:bg-(--sidebar-current-bg) hover:text-(--sidebar-current-fg) [&_.text-muted-fg]:text-fg/80 [&_[data-slot='icon']:not([class*='text-'])]:text-(--sidebar-current-fg) hover:[&_[data-slot='icon']:not([class*='text-'])]:text-(--sidebar-current-fg)",
+              "bg-[#2E2E2E] text-[#E6E4D7] dark:bg-[#D1CFC0] dark:text-sidebar font-medium [&_.text-muted-fg]:text-fg/80 [&_[data-slot='icon']:not([class*='text-'])]:text-[#E6E4D7] dark:[&_[data-slot='icon']:not([class*='text-'])]:text-sidebar",
             isFocusVisible && "inset-ring inset-ring-sidebar-ring outline-hidden",
             (isPressed || isHovered) &&
               "bg-[#2E2E2E] text-[#E6E4D7] dark:bg-[#D1CFC0] dark:text-sidebar dark:[&_[data-slot='icon']:not([class*='text-'])]:text-sidebar [&_[data-slot='icon']:not([class*='text-'])]:text-sidebar-accent-fg",

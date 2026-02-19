@@ -7,6 +7,7 @@ import {
   ShieldCheckIcon,
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
+import { useLocation } from "react-router";
 import { Avatar } from "@/components/ui/avatar";
 import { Link } from "@/components/ui/link";
 import {
@@ -33,9 +34,11 @@ import {
 export default function AppSidebar(
   props: React.ComponentProps<typeof Sidebar>,
 ) {
+  const location = useLocation();
+
   return (
     <Sidebar {...props}>
-      <SidebarHeader className='bg-[#E3DDCF]! dark:bg-[#101010]! text-[#2E2E2E] dark:text-[#D1CFC0] dark:border-[#2C2C2C]'>
+      <SidebarHeader className='bg-[#E3DDCF]! dark:bg-[#101010]! text-[#2E2E2E] dark:text-[#D1CFC0] dark:border-[#2A2A2A]'>
         <Link href='/' className='flex items-center gap-x-2'>
           <Avatar
             isSquare
@@ -48,14 +51,22 @@ export default function AppSidebar(
           </SidebarLabel>
         </Link>
       </SidebarHeader>
-      <SidebarContent className='bg-[#E3DDCF]! dark:bg-[#101010]! text-[#2E2E2E] dark:text-[#D1CFC0] dark:border-[#2C2C2C]'>
+      <SidebarContent className='bg-[#E3DDCF]! dark:bg-[#101010]! text-[#2E2E2E] dark:text-[#D1CFC0] dark:border-[#2A2A2A]'>
         <SidebarSectionGroup>
           <SidebarSection>
-            <SidebarItem tooltip='Home' href='/'>
+            <SidebarItem
+              tooltip='Home'
+              href='/'
+              isCurrent={location.pathname === "/"}
+            >
               <HomeIcon />
               <SidebarLabel>Home</SidebarLabel>
             </SidebarItem>
-            <SidebarItem tooltip='Repositories' href='/repos'>
+            <SidebarItem
+              tooltip='Repositories'
+              href='/repos'
+              isCurrent={location.pathname === "/repos"}
+            >
               <RectangleStackIcon />
               <SidebarLabel>Repositories</SidebarLabel>
             </SidebarItem>
