@@ -1,5 +1,16 @@
 import type { GithubRepo, GithubUser } from "@/api/github/github-types";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
+
+import { RingChart } from "@/components/charts/ring-chart";
+import { Ring } from "@/components/charts/ring";
+import { RingCenter } from "@/components/charts/ring-center";
+import {
+  Legend,
+  LegendItem,
+  LegendLabel,
+  LegendMarker,
+  LegendValue,
+} from "@/components/charts/legend";
 
 type Props = {
   user: GithubUser | undefined;
@@ -20,15 +31,49 @@ const UserDetails = ({ user, repos }: Props) => {
 
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
-    return Object.entries(counts).map(([lang, count]) => ({
-      name: lang,
-      value: Number(((count / total) * 100).toFixed(2)),
+    let languages = Object.entries(counts).map(([lang, count]) => ({
+      label: lang,
+      value: (count / total) * 100,
+    }));
+
+    languages.sort((a, b) => b.value - a.value);
+
+    if (languages.length > 2) {
+      const topTwo = languages.slice(0, 2);
+
+      const otherValue = languages
+        .slice(2)
+        .reduce((sum, l) => sum + l.value, 0);
+
+      topTwo.push({
+        label: "Other",
+        value: otherValue,
+      });
+
+      languages = topTwo;
+    }
+
+    return languages.map((l) => ({
+      label: l.label,
+      value: Number(l.value.toFixed(2)),
     }));
   }, [repos]);
 
-  useEffect(() => {
-    console.log(languageStats);
-  });
+  const chartData = useMemo(() => {
+    const colors = [
+      "var(--chart-1)",
+      "var(--chart-2)",
+      "var(--chart-3)",
+      "var(--chart-4)",
+    ];
+
+    return languageStats.map((lang, i) => ({
+      label: lang.label,
+      value: lang.value,
+      maxValue: 100,
+      color: colors[i],
+    }));
+  }, [languageStats]);
 
   return (
     <div className='flex gap-5'>
@@ -86,8 +131,27 @@ const UserDetails = ({ user, repos }: Props) => {
         </div>
       </div>
 
-      <div className='flex flex-col p-6 h-110 w-95 bg-[#f4efe4] boarder rounded-2xl shadow-sm border border-[#CFC8B8] dark:border-[#2A2A2A] dark:bg-[#1c1c1c]'>
-        language usage
+      <div className='flex flex-col p-6 h-110 w-95 rounded-2xl shadow-sm border justify-center items-center'>
+        <RingChart data={chartData} size={270} strokeWidth={15} ringGap={8}>
+          {chartData.map((_, index) => (
+            <Ring key={index} index={index} />
+          ))}
+
+          <RingCenter
+            formatOptions={{
+              notation: "standard",
+              maximumFractionDigits: 0,
+            }}
+            defaultLabel='Languages'
+          />
+        </RingChart>
+        <Legend items={chartData}>
+          <LegendItem className='flex items-center gap-3'>
+            <LegendMarker />
+            <LegendLabel className='flex-1' />
+            <LegendValue />
+          </LegendItem>
+        </Legend>
       </div>
     </div>
   );

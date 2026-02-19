@@ -21,6 +21,7 @@
   },
   "registries": {
     "@intentui": "https://intentui.com/r/{name}",
-    "@magicui": "https://magicui.design/r/{name}"
+    "@magicui": "https://magicui.design/r/{name}",
+    "@bklit-ui": "https://ui.bklit.com/r/{name}.json"
   }
 }

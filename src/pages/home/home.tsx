@@ -21,7 +21,7 @@ import { userUserRepos, useUserData } from "./hooks/get-github-user";
 // };
 
 const Home = () => {
-  const username = "ThePrimeagen";
+  const username = "Avijit07x";
 
   const { data: user } = useUserData(username);
   const { data: repos } = userUserRepos(username);

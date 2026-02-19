@@ -77,6 +77,11 @@
   --shadow-2xl: 0px 4px 10px 0px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0.01em;
   --spacing: 0.25rem;
+  --legend: oklch(1 0 0);
+  --legend-foreground: oklch(0.141 0.005 285.823);
+  --legend-muted: oklch(0.967 0.001 286.375);
+  --legend-muted-foreground: oklch(0.552 0.016 285.938);
+  --legend-track: oklch(0.92 0.004 286.32);
 }
 
 .dark {
@@ -135,6 +140,11 @@
   --shadow-xl:
     0px 6px 15px 0px hsl(0 0% 0% / 0.3), 0px 8px 10px -1px hsl(0 0% 0% / 0.3);
   --shadow-2xl: 0px 6px 15px 0px hsl(0 0% 0% / 0.75);
+  --legend: oklch(0.21 0.006 285.885);
+  --legend-foreground: oklch(0.985 0 0);
+  --legend-muted: oklch(0.274 0.006 286.033);
+  --legend-muted-foreground: oklch(0.705 0.015 286.067);
+  --legend-track: oklch(0.274 0.006 286.033);
 }
 
 @theme inline {
@@ -198,6 +208,11 @@
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
   --tracking-wider: calc(var(--tracking-normal) + 0.05em);
   --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+  --color-legend-track: var(----legend-track);
+  --color-legend-muted-foreground: var(----legend-muted-foreground);
+  --color-legend-muted: var(----legend-muted);
+  --color-legend-foreground: var(----legend-foreground);
+  --color-legend: var(----legend);
 }
 
 body {
