@@ -9,11 +9,13 @@ export const useUserData = (user: string) =>
 
     enabled: !!user,
 
-    staleTime: 1000 * 60 * 10,
+    staleTime: Infinity,
 
     refetchOnWindowFocus: false,
 
-    gcTime: 1000 * 60 * 10,
+    refetchOnMount: false,
+
+    gcTime: Infinity,
 
     retry: 1,
   });
@@ -26,11 +28,13 @@ export const userUserRepos = (user: string) =>
 
     enabled: !!user,
 
-    staleTime: 1000 * 60 * 10,
+    staleTime: Infinity,
 
     refetchOnWindowFocus: false,
 
-    gcTime: 1000 * 60 * 10,
+    refetchOnMount: false,
+
+    gcTime: Infinity,
 
     retry: 1,
   });

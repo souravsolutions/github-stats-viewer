@@ -3,9 +3,7 @@
 import NumberFlow from "@number-flow/react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useRing } from "./ring-context";
-
-
+import { usePie } from "./pie-context";
 
 // NumberFlow format - subset of Intl.NumberFormatOptions
 interface NumberFlowFormat {
@@ -23,7 +21,7 @@ interface NumberFlowFormat {
   unitDisplay?: "short" | "long" | "narrow";
 }
 
-export interface RingCenterProps {
+export interface PieCenterProps {
   /** Label shown below the value. Default: "Total" when not hovering */
   defaultLabel?: string;
   /** Format options for NumberFlow. Default: standard notation */
@@ -33,7 +31,7 @@ export interface RingCenterProps {
     value: number;
     label: string;
     isHovered: boolean;
-    data: { label: string; value: number; maxValue: number; color?: string };
+    data: { label: string; value: number; color?: string; fill?: string };
   }) => ReactNode;
   /** Additional class name for the container */
   className?: string;
@@ -54,16 +52,16 @@ const defaultFormatOptions: NumberFlowFormat = {
 };
 
 /**
- * RingCenter displays content in the center of the ring chart.
+ * PieCenter displays content in the center of a donut/pie chart.
  *
  * This component renders as pure HTML (not inside SVG foreignObject) to avoid
  * Safari's WebKit bug #23113 where HTML content with CSS transforms/opacity
  * inside foreignObject renders at incorrect positions.
  *
- * The parent RingChart uses CSS Grid stacking to overlay this HTML content
- * on top of the SVG rings.
+ * The parent PieChart uses CSS Grid stacking to overlay this HTML content
+ * on top of the SVG slices.
  */
-export function RingCenter({
+export function PieCenter({
   defaultLabel = "Total",
   formatOptions = defaultFormatOptions,
   children,
@@ -72,17 +70,22 @@ export function RingCenter({
   labelClassName = "text-xs",
   prefix,
   suffix,
-}: RingCenterProps) {
-  const { data, hoveredIndex, totalValue, baseInnerRadius } = useRing();
+}: PieCenterProps) {
+  const { data, hoveredIndex, totalValue, innerRadius } = usePie();
 
   const hoveredData = hoveredIndex !== null ? data[hoveredIndex] : null;
   const displayValue = hoveredData ? hoveredData.value : totalValue;
   const displayLabel = hoveredData ? hoveredData.label : defaultLabel;
   const isHovered = hoveredIndex !== null;
 
-  // Calculate center area size based on scaled baseInnerRadius
-  // Leave some padding so text doesn't touch the inner ring
-  const centerSize = baseInnerRadius * 2 - 16;
+  // Calculate center area size based on inner radius
+  // Leave some padding so text doesn't touch the inner edge
+  const centerSize = innerRadius * 2 - 16;
+
+  // Don't render if there's no inner radius (solid pie, not donut)
+  if (innerRadius <= 0) {
+    return null;
+  }
 
   // If custom render function is provided, use it
   if (children && hoveredData) {
@@ -127,6 +130,6 @@ export function RingCenter({
   );
 }
 
-RingCenter.displayName = "RingCenter";
+PieCenter.displayName = "PieCenter";
 
-export default RingCenter;
+export default PieCenter;

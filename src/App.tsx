@@ -22,7 +22,7 @@ const router = createBrowserRouter([
 ]);
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="theme">
+    <ThemeProvider defaultTheme='light' storageKey='theme'>
       <RouterProvider router={router} />
     </ThemeProvider>
   );

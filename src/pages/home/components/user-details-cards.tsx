@@ -1,14 +1,16 @@
 import type { GithubRepo, GithubUser } from "@/api/github/github-types";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
-import { RingChart } from "@/components/charts/ring-chart";
-import { Ring } from "@/components/charts/ring";
-import { RingCenter } from "@/components/charts/ring-center";
+import PieSlice from "@/components/charts/pie-slice";
+import PieCenter from "@/components/charts/pie-center";
+import PieChart from "@/components/charts/pie-chart";
+import { languageColors } from "./colors";
 import {
   Legend,
   LegendItem,
   LegendLabel,
   LegendMarker,
+  LegendProgress,
   LegendValue,
 } from "@/components/charts/legend";
 
@@ -18,8 +20,10 @@ type Props = {
 };
 
 const UserDetails = ({ user, repos }: Props) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const languageStats = useMemo(() => {
-    if (!repos) return [];
+    if (!repos?.length) return [];
 
     const counts: Record<string, number> = {};
 
@@ -31,27 +35,12 @@ const UserDetails = ({ user, repos }: Props) => {
 
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
-    let languages = Object.entries(counts).map(([lang, count]) => ({
-      label: lang,
-      value: (count / total) * 100,
-    }));
-
-    languages.sort((a, b) => b.value - a.value);
-
-    if (languages.length > 2) {
-      const topTwo = languages.slice(0, 2);
-
-      const otherValue = languages
-        .slice(2)
-        .reduce((sum, l) => sum + l.value, 0);
-
-      topTwo.push({
-        label: "Other",
-        value: otherValue,
-      });
-
-      languages = topTwo;
-    }
+    const languages = Object.entries(counts)
+      .map(([lang, count]) => ({
+        label: lang,
+        value: (count / total) * 1000,
+      }))
+      .sort((a, b) => b.value - a.value);
 
     return languages.map((l) => ({
       label: l.label,
@@ -59,25 +48,34 @@ const UserDetails = ({ user, repos }: Props) => {
     }));
   }, [repos]);
 
-  const chartData = useMemo(() => {
-    const colors = [
-      "var(--chart-1)",
-      "var(--chart-2)",
-      "var(--chart-3)",
-      "var(--chart-4)",
-    ];
-
-    return languageStats.map((lang, i) => ({
+  const pieData = useMemo(() => {
+    return languageStats.map((lang) => ({
       label: lang.label,
       value: lang.value,
-      maxValue: 100,
-      color: colors[i],
+      color: languageColors[lang.label] ?? "#6b7280", // fallback color
     }));
   }, [languageStats]);
 
+  const mostUsedLanguage = useMemo(() => {
+    if (!pieData.length) return null;
+
+    return pieData[0]; // already sorted descending
+  }, [pieData]);
+
+  const mostUsedData = mostUsedLanguage
+  ? [
+      {
+        label: mostUsedLanguage.label,
+        value: mostUsedLanguage.value,
+        maxValue: 1000,
+        color: mostUsedLanguage.color,
+      },
+    ]
+  : [];
+
   return (
     <div className='flex gap-5'>
-      <div className='flex flex-col items-center text-center p-8 w-90 h-115 rounded-3xl border shadow-lg'>
+      <div className='flex flex-col items-center text-center p-8 w-90 rounded-3xl border shadow-lg'>
         <div className='p-1 rounded-full'>
           <img
             src='https://i.pinimg.com/736x/35/52/a8/3552a84505b17d071fac7097da40b7b9.jpg'
@@ -113,7 +111,7 @@ const UserDetails = ({ user, repos }: Props) => {
         <div className='rounded-2xl border shadow-sm p-5'>
           <p className='text-sm opacity-70'>Total Stars</p>
           <h2 className='text-3xl font-semibold leading-none mt-2'>3,045</h2>
-          <p className='text-sm opacity-70 mt-2'>Total Stars</p>
+          <p className='text-sm opacity-70 mt-4'>Total Stars</p>
         </div>
 
         {/* Card 2 */}
@@ -132,24 +130,28 @@ const UserDetails = ({ user, repos }: Props) => {
       </div>
 
       <div className='flex flex-col p-6 h-110 w-95 rounded-2xl shadow-sm border justify-center items-center'>
-        <RingChart data={chartData} size={270} strokeWidth={15} ringGap={8}>
-          {chartData.map((_, index) => (
-            <Ring key={index} index={index} />
+        <PieChart
+          data={pieData}
+          size={280}
+          innerRadius={75}
+          hoveredIndex={hoveredIndex}
+          onHoverChange={setHoveredIndex}
+        >
+          {pieData.map((_, index) => (
+            <PieSlice key={index} index={index} />
           ))}
 
-          <RingCenter
-            formatOptions={{
-              notation: "standard",
-              maximumFractionDigits: 0,
-            }}
-            defaultLabel='Languages'
-          />
-        </RingChart>
-        <Legend items={chartData}>
-          <LegendItem className='flex items-center gap-3'>
+          <PieCenter defaultLabel='Languages' />
+        </PieChart>
+
+        <Legend items={mostUsedData} title='Most used'>
+          <LegendItem className='grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-1'>
             <LegendMarker />
-            <LegendLabel className='flex-1' />
-            <LegendValue />
+            <LegendLabel />
+            <LegendValue showPercentage />
+            <div className='col-span-full w-70'>
+              <LegendProgress />
+            </div>
           </LegendItem>
         </Legend>
       </div>
