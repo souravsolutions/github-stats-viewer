@@ -1,28 +1,11 @@
-import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import {
-  ArrowRightStartOnRectangleIcon,
-  Cog6ToothIcon,
-  HomeIcon,
-  LifebuoyIcon,
-  ShieldCheckIcon,
-  RectangleStackIcon,
-} from "@heroicons/react/24/solid";
+import { HomeIcon, RectangleStackIcon } from "@heroicons/react/24/solid";
 import { useLocation } from "react-router";
 import { Avatar } from "@/components/ui/avatar";
 import { Link } from "@/components/ui/link";
-import {
-  Menu,
-  MenuContent,
-  MenuHeader,
-  MenuItem,
-  MenuSection,
-  MenuSeparator,
-  MenuTrigger,
-} from "@/components/ui/menu";
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarItem,
   SidebarLabel,

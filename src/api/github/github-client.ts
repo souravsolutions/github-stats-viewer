@@ -27,4 +27,12 @@ const githubRepos = async (username: string): Promise<GithubRepo[]> => {
 
 export default githubRepos;
 
-export { githubUser, githubRepos };
+const githubContributions = async (username: string) => {
+  const { data } = await api.get(
+    `https://github-contributions-api.deno.dev/${username}.json`,
+  );
+
+  return data;
+};
+
+export { githubUser, githubRepos, githubContributions };

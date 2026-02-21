@@ -2,7 +2,6 @@ import AppSidebar from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
 import NavBar from "../components/navbar";
-import { userUserRepos, useUserData } from "./home/hooks/get-github-user";
 
 const MainPage = () => {
   return (

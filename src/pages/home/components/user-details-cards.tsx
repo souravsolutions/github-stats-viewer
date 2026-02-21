@@ -38,7 +38,7 @@ const UserDetails = ({ user, repos }: Props) => {
     const languages = Object.entries(counts)
       .map(([lang, count]) => ({
         label: lang,
-        value: (count / total) * 1000,
+        value: (count / total) * 100,
       }))
       .sort((a, b) => b.value - a.value);
 
@@ -67,14 +67,14 @@ const UserDetails = ({ user, repos }: Props) => {
       {
         label: mostUsedLanguage.label,
         value: mostUsedLanguage.value,
-        maxValue: 1000,
+        maxValue: 100,
         color: mostUsedLanguage.color,
       },
     ]
   : [];
 
   return (
-    <div className='flex gap-5'>
+    <div className='flex gap-5 shrink-0'>
       <div className='flex flex-col items-center text-center p-8 w-90 rounded-3xl border shadow-lg'>
         <div className='p-1 rounded-full'>
           <img

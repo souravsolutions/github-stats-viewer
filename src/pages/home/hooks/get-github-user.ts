@@ -1,4 +1,4 @@
-import { githubRepos, githubUser } from "@/api/github/github-client";
+import { githubContributions, githubRepos, githubUser } from "@/api/github/github-client";
 import { useQuery } from "@tanstack/react-query";
 
 export const useUserData = (user: string) =>
@@ -35,6 +35,23 @@ export const userUserRepos = (user: string) =>
     refetchOnMount: false,
 
     gcTime: Infinity,
+
+    retry: 1,
+  });
+
+  export const useGithubGraph = (username: string) =>
+  useQuery({
+    queryKey: ["github-graph", username],
+
+    queryFn: () => githubContributions(username),
+
+    enabled: !!username,
+
+    staleTime: Infinity,
+    gcTime: Infinity,
+
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
 
     retry: 1,
   });
