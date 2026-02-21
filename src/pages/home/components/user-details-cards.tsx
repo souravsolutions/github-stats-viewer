@@ -19,7 +19,7 @@ type Props = {
   repos: GithubRepo[] | undefined;
 };
 
-const UserDetails = ({ user, repos }: Props) => {
+const UserDetails = ({ repos }: Props) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const languageStats = useMemo(() => {
