@@ -435,8 +435,8 @@ const SidebarItem = ({
       aria-current={isCurrent ? "page" : undefined}
       onClick={(e) => {
         if ("href" in props && typeof props.href === "string") {
-          e.preventDefault(); // ❌ stop browser reload
-          navigate(props.href); // ✅ SPA navigation
+          e.preventDefault(); 
+          navigate(props.href); 
         }
 
         props.onClick?.(e);

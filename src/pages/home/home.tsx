@@ -1,20 +1,28 @@
+import SmallGraphs from "./components/SmallGraphs";
 import UserDetails from "./components/user-details-cards";
 import UserGraphs from "./components/user-graphs";
-import { userUserRepos, useUserData } from "./hooks/get-github-user";
+import {
+  useGithubGraph,
+  userUserRepos,
+  useUserData,
+} from "./hooks/get-github-user";
 
 const Home = () => {
-  const username = "Ayush01010101";
+  const username = "souravsolutions";
 
   const { data: user } = useUserData(username);
   const { data: repos } = userUserRepos(username);
+  const { data: graph } = useGithubGraph(username);
 
   return (
-    <div className='flex h-full w-full gap-6 overflow-hidden'>
-      <div className='w-[75%] min-w-75 h-full overflow-hidden flex flex-col'>
+    <div className='grid grid-cols-1 2xl:grid-cols-[3fr_1fr] gap-6 h-full w-full'>
+      <div className='flex flex-col gap-6 min-w-0'>
         <UserDetails user={user} repos={repos} />
-        <UserGraphs />
+        <UserGraphs graph={graph} username={username} />
       </div>
-      <div className='w-[25%] h-full overflow-hidden'>
+
+      <div className='w-full'>
+        <SmallGraphs />
       </div>
     </div>
   );

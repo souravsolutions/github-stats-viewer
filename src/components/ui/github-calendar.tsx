@@ -11,7 +11,7 @@ type ContributionLevel =
   | "FOURTH_QUARTILE";
 
 type Day = {
-  date: string;
+  date: string; // expected ISO-ish date string
   contributionCount: number;
   contributionLevel: ContributionLevel;
 };
@@ -64,7 +64,7 @@ const colorSchemas = {
     level3: "bg-orange-400 dark:bg-orange-500",
     level4: "bg-orange-500 dark:bg-orange-400",
   },
-};
+} as const;
 
 function getLevelClass(
   level: ContributionLevel,
@@ -100,6 +100,83 @@ function getShapeClass(shape: GithubCalendarProps["shape"]) {
   }
 }
 
+function isValidDateString(dateStr: unknown): dateStr is string {
+  if (typeof dateStr !== "string") return false;
+  if (!dateStr.trim()) return false;
+  const t = new Date(dateStr).getTime();
+  return Number.isFinite(t);
+}
+
+function formatTooltipDate(dateStr: string) {
+  // If the incoming is ISO (YYYY-MM-DD), Date parsing is OK in modern engines.
+  // We still guard above; this formatter keeps tooltip friendly.
+  return new Date(dateStr).toDateString();
+}
+
+function normalizeWeeks(input: unknown): Week[] {
+  // Input is expected Week[] (Day[][]). We sanitize:
+  // - ensure it's an array of arrays
+  // - coerce day objects
+  // - keep invalid dates but mark them (so layout stays) OR you can drop them.
+  if (!Array.isArray(input)) return [];
+
+  const weeks: Week[] = [];
+
+  for (const week of input) {
+    if (!Array.isArray(week)) continue;
+
+    const days: Day[] = [];
+
+    for (const d of week) {
+      if (!d || typeof d !== "object") continue;
+
+      const day = d as any;
+
+      const date = typeof day.date === "string" ? day.date : "";
+      const contributionCount =
+        typeof day.contributionCount === "number" ? day.contributionCount : 0;
+
+      const contributionLevel: ContributionLevel =
+        day.contributionLevel === "FIRST_QUARTILE" ||
+        day.contributionLevel === "SECOND_QUARTILE" ||
+        day.contributionLevel === "THIRD_QUARTILE" ||
+        day.contributionLevel === "FOURTH_QUARTILE" ||
+        day.contributionLevel === "NONE"
+          ? day.contributionLevel
+          : contributionCount > 0
+            ? "FIRST_QUARTILE"
+            : "NONE";
+
+      days.push({
+        date,
+        contributionCount,
+        contributionLevel,
+      });
+    }
+
+    // keep even if empty? usually no; but safe:
+    if (days.length) weeks.push(days);
+  }
+
+  return weeks;
+}
+
+function getGlowColor(schema: GithubCalendarProps["colorSchema"]) {
+  switch (schema) {
+    case "green":
+      return "#10b981";
+    case "blue":
+      return "#3b82f6";
+    case "purple":
+      return "#a855f7";
+    case "orange":
+      return "#f97316";
+    case "gray":
+    default:
+      return "#a1a1aa";
+  }
+}
+
 export function GithubCalendar({
   username,
   variant = "default",
@@ -110,6 +187,7 @@ export function GithubCalendar({
   colorSchema = "green",
 }: GithubCalendarProps) {
   const { data, isLoading, error } = useGithubGraph(username);
+
   const [hoveredDate, setHoveredDate] = React.useState<string | null>(null);
   const [hoveredCount, setHoveredCount] = React.useState<number | null>(null);
   const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
@@ -138,9 +216,10 @@ export function GithubCalendar({
     );
   }
 
-  // ✅ IMPORTANT: weeks should be Week[] (array of weeks), each week is Day[]
-  // If your API already returns Week[], this will just work.
-  const weeks: Week[] = (data?.contributions ?? []) as Week[];
+  const weeks: Week[] = normalizeWeeks((data as any)?.contributions);
+
+  const shapeClass = getShapeClass(shape);
+  const glowColor = getGlowColor(colorSchema);
 
   return (
     <div className={cn("w-full flex flex-col gap-4", className)}>
@@ -160,8 +239,10 @@ export function GithubCalendar({
             </svg>
             <span className="font-semibold text-sm">@{username}</span>
           </div>
+
           <span className="text-sm text-muted-foreground">
-            {data?.totalContributions} contributions in the last year
+            {(data as any)?.totalContributions ?? 0} contributions in the last
+            year
           </span>
         </div>
       )}
@@ -195,18 +276,26 @@ export function GithubCalendar({
           )}
         </AnimatePresence>
 
-        {/* ✅ FIXED: week is Week (Day[]) so week.map works */}
         {weeks.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-1 flex-1">
+          <div
+            key={`week-${weekIndex}`}
+            className="flex flex-col gap-1 flex-1"
+          >
             {week.map((day, dayIndex) => {
               const isGlowing =
                 variant === "city-lights" && day.contributionCount > 0;
               const isMinimal = variant === "minimal";
-              const shapeClass = getShapeClass(shape);
+
+              const valid = isValidDateString(day.date);
+
+              // ✅ Key is ALWAYS unique, even if date is missing/invalid:
+              const key = valid
+                ? `day-${day.date}-${weekIndex}-${dayIndex}`
+                : `day-invalid-${weekIndex}-${dayIndex}`;
 
               return (
                 <motion.div
-                  key={day.date}
+                  key={key}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{
@@ -216,12 +305,17 @@ export function GithubCalendar({
                     damping: 20,
                   }}
                   onMouseEnter={(e) => {
-                    setHoveredDate(day.date);
                     setHoveredCount(day.contributionCount);
 
+                    // ✅ Tooltip date will never be "Invalid Date"
+                    setHoveredDate(
+                      valid ? formatTooltipDate(day.date) : "Unknown date",
+                    );
+
                     const rect = e.currentTarget.getBoundingClientRect();
-                    const parentRect =
-                      (e.currentTarget.offsetParent as HTMLElement | null)?.getBoundingClientRect();
+                    const parentRect = (
+                      e.currentTarget.offsetParent as HTMLElement | null
+                    )?.getBoundingClientRect();
 
                     if (parentRect) {
                       setMousePos({
@@ -236,6 +330,7 @@ export function GithubCalendar({
                     isGlowing && "z-10",
                     shapeClass,
                     isMinimal && "rounded-full scale-75",
+                    !valid && "opacity-70", // subtle hint for bad data
                   )}
                   style={
                     isGlowing
@@ -246,15 +341,7 @@ export function GithubCalendar({
                                   day.contributionCount > 3
                                     ? `${glowIntensity * 1.5}px`
                                     : `${glowIntensity}px`
-                                } ${
-                                  colorSchema === "green"
-                                    ? "#10b981"
-                                    : colorSchema === "blue"
-                                      ? "#3b82f6"
-                                      : colorSchema === "purple"
-                                        ? "#a855f7"
-                                        : "#f97316"
-                                }`
+                                } ${glowColor}`
                               : "none",
                         }
                       : undefined
