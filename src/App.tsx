@@ -1,31 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
-
-import Home from "./pages/home/home";
-import MainPage from "./pages/layout";
-import { ThemeProvider } from "./components/theme-provider";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <MainPage />,
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "repos",
-        element: <h1>Repos</h1>,
-      },
-    ],
-  },
-]);
 const App = () => {
-  return (
-    <ThemeProvider defaultTheme='light' storageKey='theme'>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  );
+	return (
+		<div className="min-h-screen flex flex-col bg-black text-white/95 items-center justify-center text-2xl font-bold text-center">
+			<img
+				className="size-40"
+				src="https://res.cloudinary.com/dltj8bim0/image/upload/v1761060580/logo_kukwt0.png"
+				alt=""
+			/>
+			<p>Hello Vite + React + TailwindCSS!</p>
+		</div>
+	);
 };
 
 export default App;
