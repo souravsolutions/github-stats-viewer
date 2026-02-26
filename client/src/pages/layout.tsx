@@ -2,21 +2,23 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Github, Search } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HomeLayout = () => {
   const [username, setUsername] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(!username) {
-      alert("Please enter a username")
-      return
+    if (!username) {
+      alert("Please enter a username");
+      return;
     }
-  }
+
+    navigate(`/${username}`);
+  };
 
   const applyQuickPick = (value: string) => {
     setUsername(value);
@@ -71,10 +73,7 @@ const HomeLayout = () => {
               <div className='group relative'>
                 <div className='pointer-events-none absolute -inset-0.5 rounded-2xl bg-linear-to-r from-[#eafe7c]/10 via-emerald-200/10 to-transparent opacity-70 blur transition group-focus-within:opacity-100' />
                 <div className='relative rounded-2xl border border-white/10 bg-black/20 p-2 backdrop-blur'>
-                  <form
-                    className='flex w-full gap-0'
-                    onSubmit={handleSubmit}
-                  >
+                  <form className='flex w-full gap-0' onSubmit={handleSubmit}>
                     <div className='relative w-full'>
                       <Github className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400' />
                       <Input
