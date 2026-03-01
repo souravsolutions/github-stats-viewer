@@ -122,7 +122,7 @@ const HomeLayout = () => {
                   onClick={() => applyQuickPick("souravsolutions")}
                   className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10 cursor-pointer'
                 >
-                  苏 Sourav
+                  風 Sourav
                 </button>
               </div>
             </div>
@@ -135,7 +135,7 @@ const HomeLayout = () => {
             href='https://github.com/souravsolutions'
             className='text-zinc-300 underline decoration-white/15 underline-offset-4 transition hover:text-white hover:decoration-white/30'
           >
-            苏 Sourav
+            風 Sourav
           </a>
           . No sign-in.
         </footer>
