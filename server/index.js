@@ -19,6 +19,14 @@ query($username:String!, $cursor:String){
     followers{ totalCount }
     following{ totalCount }
 
+    mergedPRs: pullRequests(first:1, states:MERGED){
+      totalCount
+    }
+
+    closedIssues: issues(first:1, states:CLOSED){
+      totalCount
+    }
+
     repositories(
       first:100,
       after:$cursor,
@@ -114,6 +122,8 @@ app.post("/github", async (req, res) => {
           followers: user.followers.totalCount,
           following: user.following.totalCount,
           totalRepositories: user.repositories.totalCount,
+          mergedPRs: user.mergedPRs.totalCount,
+          closedIssues: user.closedIssues.totalCount,
         };
 
         contributions = user.contributionsCollection;

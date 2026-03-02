@@ -3,7 +3,6 @@ import { userInfo } from "./hooks/userinfo";
 import BasicInfo from "./BasicInfo";
 import Navbar from "./Navbar";
 import BestRepository from "./BestRepository";
-import { useEffect } from "react";
 import Languages from "./Languages";
 
 const UserInfo = () => {
@@ -11,10 +10,6 @@ const UserInfo = () => {
   const finalUsername = username?.trim() ?? "";
 
   const { data, isLoading, isError } = userInfo(finalUsername);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   if (isError) {
     return (
