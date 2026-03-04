@@ -11,6 +11,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  BugIcon,
+  ForkKnifeCrossedIcon,
+  GitCommit,
+  GitFork,
+  GitPullRequest,
+  Star,
+  StarHalf,
+  StarsIcon,
+} from "lucide-react";
 import { useMemo } from "react";
 import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
 
@@ -70,24 +80,33 @@ const Languages = ({ data, isLoading }: any) => {
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
         <Card className='bg-[#18181b]/60 border-white/10 backdrop-blur'>
           <CardHeader>
-            <CardTitle className='text-white'>Contributions</CardTitle>
+            <CardTitle className='text-white text-2xl'>Contributions</CardTitle>
             <CardDescription>Recent activity and merged work</CardDescription>
           </CardHeader>
-          <CardContent className='space-y-3'>
+          <CardContent className='space-y-3 text-lg'>
             <div className='flex items-center justify-between gap-3'>
-              <p className='text-muted-foreground text-sm'>Commits</p>
+              <p className='text-muted-foreground text-sm flex gap-4'>
+                {" "}
+                <GitCommit size={20} color='white' /> Commits
+              </p>
               <p className='text-white font-mono font-medium tabular-nums'>
                 {totalContributions?.toLocaleString?.() ?? "-"}
               </p>
             </div>
             <div className='flex items-center justify-between gap-3'>
-              <p className='text-muted-foreground text-sm'>Issues closed</p>
+              <p className='text-muted-foreground text-sm flex gap-4'>
+                <BugIcon size={20} color='white' />
+                Issues closed
+              </p>
               <p className='text-white font-mono font-medium tabular-nums'>
                 {closedIssues?.toLocaleString?.() ?? "-"}
               </p>
             </div>
             <div className='flex items-center justify-between gap-3'>
-              <p className='text-muted-foreground text-sm'>PRs merged</p>
+              <p className='text-muted-foreground text-sm flex gap-4'>
+                <GitPullRequest size={20} color='white' />
+                PRs merged
+              </p>
               <p className='text-white font-mono font-medium tabular-nums'>
                 {mergedPRs?.toLocaleString?.() ?? "-"}
               </p>
@@ -97,20 +116,26 @@ const Languages = ({ data, isLoading }: any) => {
 
         <Card className='bg-[#18181b]/60 border-white/10 backdrop-blur'>
           <CardHeader>
-            <CardTitle className='text-white'>Repo impact</CardTitle>
+            <CardTitle className='text-white text-2xl'>Repo impact</CardTitle>
             <CardDescription>
               Stars and forks across repositories
             </CardDescription>
           </CardHeader>
-          <CardContent className='space-y-3'>
+          <CardContent className='space-y-3 text-lg'>
             <div className='flex items-center justify-between gap-3'>
-              <p className='text-muted-foreground text-sm'>Total stars</p>
+              <p className='text-muted-foreground text-sm flex gap-4'>
+                <Star size={20} color='white' />
+                Total stars
+              </p>
               <p className='text-white font-mono font-medium tabular-nums'>
                 {totalStars?.toLocaleString?.() ?? "-"}
               </p>
             </div>
             <div className='flex items-center justify-between gap-3'>
-              <p className='text-muted-foreground text-sm'>Total forks</p>
+              <p className='text-muted-foreground text-sm flex gap-4'>
+                <GitFork size={20} color='white' />
+                Total forks
+              </p>
               <p className='text-white font-mono font-medium tabular-nums'>
                 {totalForks?.toLocaleString?.() ?? "-"}
               </p>
@@ -120,7 +145,9 @@ const Languages = ({ data, isLoading }: any) => {
 
         <Card className='bg-[#18181b]/60 border-white/10 backdrop-blur md:col-span-2 lg:col-span-1'>
           <CardHeader>
-            <CardTitle className='text-white'>Most used languages</CardTitle>
+            <CardTitle className='text-white text-2xl'>
+              Most used languages
+            </CardTitle>
             <CardDescription>Top 5 by repository size</CardDescription>
           </CardHeader>
           <CardContent>

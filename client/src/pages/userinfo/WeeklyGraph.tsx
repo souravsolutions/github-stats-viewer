@@ -77,7 +77,7 @@ const WeeklyGraph = ({ data }: any) => {
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2'>
         <Card className='bg-[#18181b]/60 border-white/10 backdrop-blur md:col-span-2 lg:col-span-1'>
           <CardHeader>
-            <CardTitle>Monthly Contribution Chart</CardTitle>
+            <CardTitle className="text-white">Monthly Contribution Chart</CardTitle>
             <CardDescription>One Year</CardDescription>
           </CardHeader>
           <CardContent>
@@ -100,7 +100,7 @@ const WeeklyGraph = ({ data }: any) => {
         </Card>
         <Card className='bg-[#18181b]/60 border-white/10 backdrop-blur md:col-span-2 lg:col-span-1'>
           <CardHeader>
-            <CardTitle>Days of Contribution</CardTitle>
+            <CardTitle className="text-white">Days of Contribution</CardTitle>
             <CardDescription>Last seven days</CardDescription>
           </CardHeader>
           <CardContent>

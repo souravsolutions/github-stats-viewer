@@ -6,6 +6,7 @@ import BestRepository from "./BestRepository";
 import Languages from "./Languages";
 import ContributionGraph from "./ContributionGraph";
 import WeeklyGraph from "./WeeklyGraph";
+import SmallStats from "./SmallStats";
 
 const UserInfo = () => {
   const { username } = useParams();
@@ -26,7 +27,7 @@ const UserInfo = () => {
     );
   }
 
-  if(isLoading) {
+  if (isLoading) {
     return (
       <div className='min-h-screen w-full bg-[#18181b] text-zinc-100 relative overflow-hidden'>
         <main className='relative z-10 mx-auto w-full max-w-6xl px-4 py-10 sm:py-16'>
@@ -60,6 +61,7 @@ const UserInfo = () => {
           <Languages data={data} isLoading={isLoading} />
           <ContributionGraph data={data} isLoading={isLoading} />
           <WeeklyGraph data={data} isLoading={isLoading} />
+          {/* <SmallStats data={data} isLoading={isLoading} /> */}
         </div>
       </main>
     </div>

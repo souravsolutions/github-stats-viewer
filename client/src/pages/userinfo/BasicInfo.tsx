@@ -9,11 +9,11 @@ const BasicInfo = ({ data }: any) => {
         />
 
         <div className='flex flex-col justify-center gap-2 text-center sm:text-left'>
-          <h1 className='text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-100 wrap-break-word'>
+          <h1 className='text-2xl sm:text-4xl font-semibold tracking-tight text-zinc-100 wrap-break-word'>
             {data?.user?.name}
           </h1>
 
-          <div className='flex flex-wrap items-center justify-center sm:justify-start gap-x-6 gap-y-2 text-xs sm:text-sm text-zinc-400'>
+          <div className='flex flex-wrap items-center justify-center sm:justify-start gap-x-6 gap-y-2 text-lg sm:text-sm text-zinc-400'>
             <span className='flex items-center gap-2'>
               {data?.user?.followers} Followers
             </span>
