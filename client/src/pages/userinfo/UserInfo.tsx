@@ -6,7 +6,6 @@ import BestRepository from "./BestRepository";
 import Languages from "./Languages";
 import ContributionGraph from "./ContributionGraph";
 import WeeklyGraph from "./WeeklyGraph";
-import SmallStats from "./SmallStats";
 
 const UserInfo = () => {
   const { username } = useParams();

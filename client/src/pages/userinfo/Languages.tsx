@@ -13,13 +13,10 @@ import {
 } from "@/components/ui/chart";
 import {
   BugIcon,
-  ForkKnifeCrossedIcon,
   GitCommit,
   GitFork,
   GitPullRequest,
   Star,
-  StarHalf,
-  StarsIcon,
 } from "lucide-react";
 import { useMemo } from "react";
 import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
