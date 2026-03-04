@@ -4,6 +4,8 @@ import BasicInfo from "./BasicInfo";
 import Navbar from "./Navbar";
 import BestRepository from "./BestRepository";
 import Languages from "./Languages";
+import ContributionGraph from "./ContributionGraph";
+import WeeklyGraph from "./WeeklyGraph";
 
 const UserInfo = () => {
   const { username } = useParams();
@@ -19,6 +21,16 @@ const UserInfo = () => {
           <h1 className='text-2xl font-semibold tracking-tight'>
             User Not Found
           </h1>
+        </main>
+      </div>
+    );
+  }
+
+  if(isLoading) {
+    return (
+      <div className='min-h-screen w-full bg-[#18181b] text-zinc-100 relative overflow-hidden'>
+        <main className='relative z-10 mx-auto w-full max-w-6xl px-4 py-10 sm:py-16'>
+          <h1 className='text-2xl font-semibold tracking-tight'>Loading...</h1>
         </main>
       </div>
     );
@@ -42,10 +54,12 @@ const UserInfo = () => {
       />
       <Navbar />
       <main className='relative z-10 w-full px-4 pb-10 sm:pb-16'>
-        <div className='pt-6'>
+        <div className='py-4'>
           <BasicInfo data={data} isLoading={isLoading} />
           <BestRepository data={data} isLoading={isLoading} />
           <Languages data={data} isLoading={isLoading} />
+          <ContributionGraph data={data} isLoading={isLoading} />
+          <WeeklyGraph data={data} isLoading={isLoading} />
         </div>
       </main>
     </div>
