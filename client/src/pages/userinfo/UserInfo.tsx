@@ -62,7 +62,6 @@ const UserInfo = () => {
           <Languages data={data} isLoading={isLoading} />
           <ContributionGraph data={data} isLoading={isLoading} />
           <WeeklyGraph data={data} isLoading={isLoading} />
-          {/* <SmallStats data={data} isLoading={isLoading} /> */}
         </div>
       </main>
     </div>

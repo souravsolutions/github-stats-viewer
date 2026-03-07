@@ -112,10 +112,10 @@ const HomeLayout = () => {
                 </button>
                 <button
                   type='button'
-                  onClick={() => applyQuickPick("gaearon")}
+                  onClick={() => applyQuickPick("ice1000")}
                   className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10 cursor-pointer'
                 >
-                  dan
+                  Tesla Zhang
                 </button>
                 <button
                   type='button'
