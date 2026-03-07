@@ -68,7 +68,6 @@ const WeeklyGraph = ({ data }: any) => {
           day: "2-digit",
         }),
       }));
-    console.log(last7);
     return last7;
   }, [calendar]);
 

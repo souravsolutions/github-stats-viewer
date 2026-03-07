@@ -15,6 +15,7 @@ query($username:String!, $cursor:String){
     name
     login
     avatarUrl
+    url
 
     followers{ totalCount }
     following{ totalCount }
@@ -36,6 +37,7 @@ query($username:String!, $cursor:String){
 
       nodes{
         name
+        url
         stargazerCount
         forkCount
 
@@ -119,6 +121,7 @@ app.post("/github", async (req, res) => {
           name: user.name,
           login: user.login,
           avatarUrl: user.avatarUrl,
+          url: user.url,
           followers: user.followers.totalCount,
           following: user.following.totalCount,
           totalRepositories: user.repositories.totalCount,
@@ -149,9 +152,13 @@ app.post("/github", async (req, res) => {
 
       if (
         !topRepository ||
-        repo.stargazerCount > topRepository.stargazerCount
+        repo.stargazerCount > topRepository.star
       ) {
-        topRepository = repo;
+        topRepository = {
+          name: repo.name,
+          url: repo.url,
+          star: repo.stargazerCount,
+        };
       }
 
       repo.languages.edges.forEach((lang) => {

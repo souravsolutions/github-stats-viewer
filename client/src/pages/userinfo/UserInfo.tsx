@@ -6,6 +6,7 @@ import BestRepository from "./BestRepository";
 import Languages from "./Languages";
 import ContributionGraph from "./ContributionGraph";
 import WeeklyGraph from "./WeeklyGraph";
+import CornerRibbon from "./CornerRibbon";
 
 const UserInfo = () => {
   const { username } = useParams();
@@ -38,6 +39,7 @@ const UserInfo = () => {
 
   return (
     <div className='min-h-screen w-full bg-[#18181b] text-zinc-100 relative overflow-hidden flex flex-col'>
+      <CornerRibbon href={data?.user?.url ?? "#"} />
       <div
         className='absolute inset-0 opacity-30'
         style={{

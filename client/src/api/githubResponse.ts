@@ -3,6 +3,7 @@ export type githubResponse = {
     name: string | null;
     login: string;
     avatarUrl: string;
+    url: string,
     followers: number;
     following: number;
     totalRepositories: number;
@@ -13,13 +14,7 @@ export type githubResponse = {
   topRepository: {
     name: string;
     stargazerCount: number;
-    forkCount: number;
-    languages: {
-      edges: Array<{
-        size: number;
-        node: { name: string; color: string | null };
-      }>;
-    };
+    url: string;
   } | null;
   contributions: {
     totalCommitContributions: number;
