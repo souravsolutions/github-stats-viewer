@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { Github, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { WordHighlight } from "@/components/WordHighlight";
 
 const HomeLayout = () => {
   const [username, setUsername] = useState("");
@@ -12,7 +13,7 @@ const HomeLayout = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!username) {
+    if (!username.trim()) {
       alert("Please enter a username");
       return;
     }
@@ -26,9 +27,9 @@ const HomeLayout = () => {
   };
 
   return (
-    <div className='min-h-screen w-full bg-[#18181b] text-zinc-100 relative overflow-hidden'>
+    <div className='relative min-h-screen w-full overflow-hidden bg-[#18181b] text-zinc-100'>
       <div className='pointer-events-none absolute -top-40 -left-40 h-130 w-130 rounded-full bg-[#eafe7c]/1 blur-3xl' />
-      <div className='pointer-events-none absolute -bottom-48 -right-48 h-155 w-155 rounded-full bg-emerald-400/2 blur-3xl' />
+      <div className='pointer-events-none absolute -right-48 -bottom-48 h-155 w-155 rounded-full bg-emerald-400/2 blur-3xl' />
 
       <div
         className='absolute inset-0 opacity-30'
@@ -54,17 +55,22 @@ const HomeLayout = () => {
               beta
             </span>
           </div>
-          <div className='hidden sm:flex items-center gap-2 text-xs text-zinc-400'>
+
+          <div className='hidden items-center gap-2 text-xs text-zinc-400 sm:flex'>
             <span>Fast profile snapshots</span>
           </div>
         </header>
 
         <section className='flex flex-1 items-center justify-center py-10 sm:py-14'>
-          <div className='w-full max-w-2xl text-center'>
-            <h1 className='text-balance text-4xl font-semibold tracking-tight sm:text-5xl'>
-              Your GitHub, in a clean glance.
+          <div className='w-full max-w-3xl text-center'>
+            <h1 className='mx-auto max-w-4xl text-center text-4xl tracking-tight sm:text-5xl md:text-6xl font-manrope font-medium'>
+              <span className='block'>
+                See your <WordHighlight>GitHub</WordHighlight> clearly
+              </span>
+              <span className='mt-2 block'>in one clean view</span>
             </h1>
-            <p className='mx-auto mt-4 max-w-xl text-pretty text-sm leading-6 text-gray-200 sm:text-base'>
+
+            <p className='mx-auto mt-4 max-w-xl text-pretty text-xs leading-6 text-white opacity-40 sm:text-base font-pt-sans'>
               Search any username and get a sharp summary: repos, stars, top
               languages, and activity.
             </p>
@@ -75,7 +81,7 @@ const HomeLayout = () => {
                 <div className='relative rounded-2xl border border-white/10 bg-black/20 p-2 backdrop-blur'>
                   <form className='flex w-full gap-0' onSubmit={handleSubmit}>
                     <div className='relative w-full'>
-                      <Github className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400' />
+                      <Github className='pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-zinc-400' />
                       <Input
                         ref={inputRef}
                         value={username}
@@ -88,6 +94,7 @@ const HomeLayout = () => {
                         className='h-12 w-full rounded-xl rounded-r-none border-white/10 bg-[#141414]/80 pl-11 text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-2 focus-visible:ring-[#eafe7c]/40'
                       />
                     </div>
+
                     <Button
                       type='submit'
                       variant='outline'
@@ -103,24 +110,27 @@ const HomeLayout = () => {
                 <span className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5'>
                   Try:
                 </span>
+
                 <button
                   type='button'
                   onClick={() => applyQuickPick("torvalds")}
-                  className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10 cursor-pointer'
+                  className='cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10'
                 >
                   Linus Torvalds
                 </button>
+
                 <button
                   type='button'
                   onClick={() => applyQuickPick("ice1000")}
-                  className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10 cursor-pointer'
+                  className='cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10'
                 >
                   Tesla Zhang
                 </button>
+
                 <button
                   type='button'
                   onClick={() => applyQuickPick("souravsolutions")}
-                  className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10 cursor-pointer'
+                  className='cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10'
                 >
                   風 Sourav
                 </button>
