@@ -1,14 +1,24 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Github, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { WordHighlight } from "@/components/WordHighlight";
+
+const loaderSrc =
+  "https://lottie.host/c9fe1485-a771-4311-8988-d75141a28651/VNw81E9P8o.lottie";
 
 const HomeLayout = () => {
   const [username, setUsername] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    void fetch(loaderSrc, {
+      mode: "cors",
+      cache: "force-cache",
+    }).catch(() => null);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

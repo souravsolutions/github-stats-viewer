@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@lottiefiles/dotlottie-react':
+        specifier: ^0.18.4
+        version: 0.18.4(react@19.2.4)
       '@number-flow/react':
         specifier: ^0.6.0
         version: 0.6.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -569,6 +572,14 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lottiefiles/dotlottie-react@0.18.4':
+    resolution: {integrity: sha512-tuMjFM968TQOqkoaK7QbkQGxxBRQaH4VMxH43guJFwuPkH8q2MJbcglBizbQbAqWLM9c9adaHuUKocsS99MhBw==}
+    peerDependencies:
+      react: ^17 || ^18 || ^19
+
+  '@lottiefiles/dotlottie-web@0.66.0':
+    resolution: {integrity: sha512-aFTwmvP3iN4Lu4VyuKMqHlc6mMDdg0wtekY6FEzcv+Miv7inFW6wz0ekY5xHqhDctVOrQIWvJX+ShmevFZUjDg==}
 
   '@modelcontextprotocol/sdk@1.26.0':
     resolution: {integrity: sha512-Y5RmPncpiDtTXDbLKswIJzTqu2hyBKxTNsgKqKclDbhIgg1wgtf1fRuvxgTnRfcnxtvvgbIEcqUOzZrJ6iSReg==}
@@ -4060,6 +4071,13 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@lottiefiles/dotlottie-react@0.18.4(react@19.2.4)':
+    dependencies:
+      '@lottiefiles/dotlottie-web': 0.66.0
+      react: 19.2.4
+
+  '@lottiefiles/dotlottie-web@0.66.0': {}
 
   '@modelcontextprotocol/sdk@1.26.0(zod@3.25.76)':
     dependencies:
