@@ -8,6 +8,7 @@ import ContributionGraph from "./ContributionGraph";
 import WeeklyGraph from "./WeeklyGraph";
 import CornerRibbon from "./CornerRibbon";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { LOADER_SRC } from "@/lib/loader";
 
 const UserInfo = () => {
   const { username } = useParams();
@@ -39,7 +40,7 @@ const UserInfo = () => {
             aria-label='Loading'
           >
             <DotLottieReact
-              src='https://lottie.host/c9fe1485-a771-4311-8988-d75141a28651/VNw81E9P8o.lottie'
+              src={LOADER_SRC}
               loop
               autoplay
             />

@@ -1,12 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Github, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { WordHighlight } from "@/components/WordHighlight";
-
-const loaderSrc =
-  "https://lottie.host/c9fe1485-a771-4311-8988-d75141a28651/VNw81E9P8o.lottie";
 
 const HomeLayout = () => {
   const [username, setUsername] = useState("");
@@ -15,13 +12,6 @@ const HomeLayout = () => {
 
   const tryButtonClass =
     "relative inline-flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-[11px] font-medium text-zinc-200/85 shadow-[0_0_0_1px_rgba(234,254,124,0.04)] backdrop-blur transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#eafe7c]/40 hover:border-[#eafe7c]/25 hover:bg-white/5 hover:text-white sm:text-xs before:absolute before:inset-0 before:bg-linear-to-r before:from-transparent before:via-white/10 before:to-transparent before:translate-x-[-130%] before:transition before:duration-700 hover:before:translate-x-[130%] cursor-pointer";
-
-  useEffect(() => {
-    void fetch(loaderSrc, {
-      mode: "cors",
-      cache: "force-cache",
-    }).catch(() => null);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
