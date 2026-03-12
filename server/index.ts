@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -78,17 +78,91 @@ query($username:String!, $cursor:String){
 }
 `;
 
-app.post("/github", async (req, res) => {
+type ContributionDay = {
+  date: string;
+  contributionCount: number;
+  color: string;
+};
+
+type ContributionsCollection = {
+  totalCommitContributions: number;
+  totalPullRequestContributions: number;
+  totalIssueContributions: number;
+  contributionCalendar: {
+    totalContributions: number;
+    weeks: Array<{
+      contributionDays: ContributionDay[];
+    }>;
+  };
+};
+
+type RepoLanguageEdge = {
+  size: number;
+  node: {
+    name: string;
+    color: string | null;
+  };
+};
+
+type RepoNode = {
+  name: string;
+  url: string;
+  stargazerCount: number;
+  forkCount: number;
+  languages: {
+    edges: RepoLanguageEdge[];
+  };
+};
+
+type GitHubUser = {
+  name: string | null;
+  login: string;
+  avatarUrl: string;
+  url: string;
+  followers: { totalCount: number };
+  following: { totalCount: number };
+  mergedPRs: { totalCount: number };
+  closedIssues: { totalCount: number };
+  repositories: {
+    totalCount: number;
+    nodes: RepoNode[];
+    pageInfo: {
+      hasNextPage: boolean;
+      endCursor: string | null;
+    };
+  };
+  contributionsCollection: ContributionsCollection;
+};
+
+type GraphQLResult = {
+  data?: {
+    user?: GitHubUser | null;
+  };
+};
+
+type UserInfo = {
+  name: string | null;
+  login: string;
+  avatarUrl: string;
+  url: string;
+  followers: number;
+  following: number;
+  totalRepositories: number;
+  mergedPRs: number;
+  closedIssues: number;
+};
+
+app.post("/github", async (req: Request, res: Response) => {
   try {
-    const { username } = req.body;
+    const { username } = req.body as { username?: string };
 
     let hasNextPage = true;
-    let cursor = null;
+    let cursor: string | null = null;
 
-    let allRepos = [];
+    let allRepos: RepoNode[] = [];
 
-    let userInfo = null;
-    let contributions = null;
+    let userInfo: UserInfo | null = null;
+    let contributions: ContributionsCollection | null = null;
 
     while (hasNextPage) {
       const response = await fetch("https://api.github.com/graphql", {
@@ -106,7 +180,7 @@ app.post("/github", async (req, res) => {
         }),
       });
 
-      const result = await response.json();
+      const result = (await response.json()) as GraphQLResult;
 
       if (!result.data?.user) {
         return res.status(404).json({
@@ -143,8 +217,10 @@ app.post("/github", async (req, res) => {
 
     let totalStars = 0;
     let totalForks = 0;
-    let topRepository = null;
-    const languageMap = {};
+    let topRepository: { name: string; url: string; star: number } | null =
+      null;
+    const languageMap: Record<string, { size: number; color: string | null }> =
+      {};
 
     allRepos.forEach((repo) => {
       totalStars += repo.stargazerCount;
@@ -194,6 +270,6 @@ app.post("/github", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`Server running on ${process.env.PORT}`),
-);
+const port = process.env.PORT as string;
+
+app.listen(port, () => console.log(`Server running on ${process.env.PORT}`));
