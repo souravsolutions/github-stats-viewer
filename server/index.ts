@@ -1,4 +1,7 @@
-import express, { type Request, type Response } from "express";
+import express, {
+  type Request,
+  type Response as ExpressResponse,
+} from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -152,7 +155,7 @@ type UserInfo = {
   closedIssues: number;
 };
 
-app.post("/github", async (req: Request, res: Response) => {
+app.post("/github", async (req: Request, res: ExpressResponse) => {
   try {
     const { username } = req.body as { username?: string };
 
@@ -226,10 +229,7 @@ app.post("/github", async (req: Request, res: Response) => {
       totalStars += repo.stargazerCount;
       totalForks += repo.forkCount;
 
-      if (
-        !topRepository ||
-        repo.stargazerCount > topRepository.star
-      ) {
+      if (!topRepository || repo.stargazerCount > topRepository.star) {
         topRepository = {
           name: repo.name,
           url: repo.url,
