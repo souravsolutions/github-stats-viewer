@@ -1,3 +1,5 @@
+import { BookMarked, UserCheck, Users } from "lucide-react";
+
 const BasicInfo = ({ data }: any) => {
   return (
     <section className='mx-auto w-full max-w-380 rounded-lg border border-white/10 p-4 sm:p-6 backdrop-blur'>
@@ -15,14 +17,17 @@ const BasicInfo = ({ data }: any) => {
 
           <div className='flex flex-wrap items-center justify-center sm:justify-start gap-x-6 gap-y-2 text-lg sm:text-sm text-zinc-400'>
             <span className='flex items-center gap-2'>
+              <Users className='h-4 w-4 text-zinc-500' />
               {data?.user?.followers} Followers
             </span>
 
             <span className='flex items-center gap-2'>
+              <UserCheck className='h-4 w-4 text-zinc-500' />
               {data?.user?.following} Following
             </span>
 
             <span className='flex items-center gap-2'>
+              <BookMarked className='h-4 w-4 text-zinc-500' />
               {data?.user?.totalRepositories} Repos
             </span>
           </div>

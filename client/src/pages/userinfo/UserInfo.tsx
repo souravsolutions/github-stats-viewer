@@ -33,7 +33,7 @@ const UserInfo = () => {
       <div className='min-h-screen w-full bg-[#18181b] text-zinc-100 relative overflow-hidden flex flex-col'>
         <div className='flex-1 flex flex-col items-center justify-center px-4 py-10'>
           <div
-            className='w-full max-w-[260px] sm:max-w-[320px] md:max-w-[360px]'
+            className='w-full max-w-65 sm:max-w-[320px] md:max-w-90'
             role='status'
             aria-live='polite'
             aria-label='Loading'

@@ -13,6 +13,9 @@ const HomeLayout = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
+  const tryButtonClass =
+    "relative inline-flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-[11px] font-medium text-zinc-200/85 shadow-[0_0_0_1px_rgba(234,254,124,0.04)] backdrop-blur transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#eafe7c]/40 hover:border-[#eafe7c]/25 hover:bg-white/5 hover:text-white sm:text-xs before:absolute before:inset-0 before:bg-linear-to-r before:from-transparent before:via-white/10 before:to-transparent before:translate-x-[-130%] before:transition before:duration-700 hover:before:translate-x-[130%] cursor-pointer";
+
   useEffect(() => {
     void fetch(loaderSrc, {
       mode: "cors",
@@ -31,9 +34,14 @@ const HomeLayout = () => {
     navigate(`/${username}`);
   };
 
-  const applyQuickPick = (value: string) => {
-    setUsername(value);
-    requestAnimationFrame(() => inputRef.current?.focus());
+  const handelClick = (name: string) => {
+    if (!name.trim()) {
+      alert("Please enter a username");
+      return;
+    }
+
+    setUsername(name);
+    navigate(`/${name}`);
   };
 
   return (
@@ -42,7 +50,7 @@ const HomeLayout = () => {
       <div className='pointer-events-none absolute -right-48 -bottom-48 h-155 w-155 rounded-full bg-emerald-400/2 blur-3xl' />
 
       <div
-        className='absolute inset-0 opacity-30'
+        className='absolute inset-0 opacity-20'
         style={{
           backgroundImage: `
             linear-gradient(rgba(255, 255, 255, 0.10) 1px, transparent 1px),
@@ -108,7 +116,7 @@ const HomeLayout = () => {
                     <Button
                       type='submit'
                       variant='outline'
-                      className='h-12 w-auto shrink-0 rounded-xl rounded-l-none border-[#eafe7c] bg-[#eafe7c] px-8 text-black hover:bg-[#eafe7c]/90'
+                      className='h-12 w-auto shrink-0 rounded-xl rounded-l-none border-[#eafe7c] bg-[#eafe7c] px-8 text-black hover:bg-[#eafe7c]/90 cursor-pointer'
                     >
                       <Search className='h-5 w-5' />
                     </Button>
@@ -117,30 +125,34 @@ const HomeLayout = () => {
               </div>
 
               <div className='mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-zinc-400'>
-                <span className='rounded-full border border-white/10 bg-white/5 px-3 py-1.5'>
-                  Try:
-                </span>
-
                 <button
                   type='button'
-                  onClick={() => applyQuickPick("torvalds")}
-                  className='cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10'
+                  onClick={() => handelClick("torvalds")}
+                  className={tryButtonClass}
                 >
                   Linus Torvalds
                 </button>
 
                 <button
                   type='button'
-                  onClick={() => applyQuickPick("ice1000")}
-                  className='cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10'
+                  onClick={() => handelClick("ice1000")}
+                  className={tryButtonClass}
                 >
                   Tesla Zhang
                 </button>
 
                 <button
                   type='button'
-                  onClick={() => applyQuickPick("souravsolutions")}
-                  className='cursor-pointer rounded-full border border-white/10 bg-white/5 px-3 py-1.5 transition hover:border-white/20 hover:bg-white/10'
+                  onClick={() => handelClick("wasabeef")}
+                  className={tryButtonClass}
+                >
+                  Daichi Furiya
+                </button>
+
+                <button
+                  type='button'
+                  onClick={() => handelClick("souravsolutions")}
+                  className={tryButtonClass}
                 >
                   風 Sourav
                 </button>

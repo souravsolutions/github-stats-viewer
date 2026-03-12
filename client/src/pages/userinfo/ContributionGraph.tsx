@@ -55,6 +55,8 @@ const ContributionGraph = ({ data, className = "" }: Props) => {
     };
   }, [calendar]);
 
+  const zeroDayColor = "rgba(255,255,255,0.06)";
+
   const [hover, setHover] = useState<ContributionDay | null>(null);
 
   if (!calendar) {
@@ -110,8 +112,11 @@ const ContributionGraph = ({ data, className = "" }: Props) => {
                     key={day.date}
                     role='img'
                     aria-label={`${day.contributionCount} contributions on ${day.date}`}
-                    className='h-3.5 w-3.5 rounded-[6px] border border-white/10'
-                    style={{ backgroundColor: day.color }}
+                    className='h-3.5 w-3.5 rounded-[2px] border border-white/10 bg-clip-padding shadow-[0_0_0_1px_rgba(0,0,0,0.35)] transition-[filter,box-shadow] duration-150 hover:brightness-110 hover:shadow-[0_0_0_1px_rgba(0,0,0,0.35),0_0_0_2px_rgba(234,254,124,0.12)]'
+                    style={{
+                      backgroundColor:
+                        day.contributionCount === 0 ? zeroDayColor : day.color,
+                    }}
                     onMouseEnter={() => setHover(day)}
                     onMouseLeave={() =>
                       setHover((prev) =>
@@ -128,16 +133,20 @@ const ContributionGraph = ({ data, className = "" }: Props) => {
 
       <footer className='mt-5 flex items-center justify-between text-xs text-zinc-400'>
         <span>Less</span>
-        <div className='flex items-center gap-1.5'>
-          {["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"].map((c) => (
-            <div
-              key={c}
-              className='h-3.5 w-3.5 rounded-[6px] border border-white/10'
-              style={{ backgroundColor: c }}
-            />
-          ))}
+        <div className="flex gap-5">
+          <div className='flex items-center gap-1.5'>
+            {[zeroDayColor, "#9be9a8", "#40c463", "#30a14e", "#216e39"].map(
+              (c) => (
+                <div
+                  key={c}
+                  className='h-3.5 w-3.5 rounded-[2px] border border-white/10 shadow-[0_0_0_1px_rgba(0,0,0,0.35)]'
+                  style={{ backgroundColor: c }}
+                />
+              ),
+            )}
+          </div>
+          <span>More</span>
         </div>
-        <span>More</span>
       </footer>
     </section>
   );

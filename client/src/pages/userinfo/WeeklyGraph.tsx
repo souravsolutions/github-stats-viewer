@@ -92,7 +92,7 @@ const WeeklyGraph = ({ data }: any) => {
                   cursor={false}
                   content={<ChartTooltipContent hideLabel />}
                 />
-                <Bar dataKey='total' fill='#216e39' radius={8} />
+                <Bar dataKey='total' fill='#216e39' radius={[8, 8, 0, 0]} />
               </BarChart>
             </ChartContainer>
           </CardContent>
@@ -115,7 +115,7 @@ const WeeklyGraph = ({ data }: any) => {
                   cursor={false}
                   content={<ChartTooltipContent hideLabel />}
                 />
-                <Bar dataKey='total' fill='#216e39' radius={8} />
+                <Bar dataKey='total' fill='#216e39' radius={[8, 8, 0, 0]} />
               </BarChart>
             </ChartContainer>
           </CardContent>

@@ -13,7 +13,7 @@ const BestRepository = ({ data }: any) => {
         </div>
       </div>
       <div className='flex gap-2'>
-        <Star size={20} color='yellow' />
+        <Star size={20} color='yellow' fill='yellow' />
         <p>{data?.topRepository?.star}</p>
       </div>
     </div>
