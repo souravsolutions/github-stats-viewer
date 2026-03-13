@@ -158,6 +158,11 @@ type UserInfo = {
 app.post("/github", async (req: Request, res: ExpressResponse) => {
   try {
     const { username } = req.body as { username?: string };
+    if (!username) {
+      return res.status(400).json({
+        error: "Username is required",
+      });
+    }
 
     let hasNextPage = true;
     let cursor: string | null = null;
@@ -270,6 +275,8 @@ app.post("/github", async (req: Request, res: ExpressResponse) => {
   }
 });
 
-const port = process.env.PORT as string;
+const port = Number(process.env.PORT) || 3000;
 
-app.listen(port, () => console.log(`Server running on ${process.env.PORT}`));
+app.listen(port, () => {
+  console.log(`Server running on ${port}`);
+});
