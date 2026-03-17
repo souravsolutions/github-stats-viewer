@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# GitHub Stats (Client)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript frontend for GitHub Stats. It provides a simple search flow (enter a GitHub username) and renders an aggregated profile dashboard powered by the local API server.
 
-Currently, two official plugins are available:
+Local workflow:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Choose an API:
+   - Deployed: `https://githubgraph.vercel.app`
+   - Local: run the backend (`server/README.md`)
+2. Set `VITE_API_URL` in `client/.env` to your chosen API base URL.
+3. Run the client and open the web URL.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + TypeScript
+- Vite
+- @tanstack/react-query for request lifecycle and caching
+- Tailwind CSS for styling
+- Charts/visualization: Recharts, Visx
 
-## Expanding the ESLint configuration
+## Requirements
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 18+
+- pnpm (recommended)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Setup
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Install dependencies
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+   ```bash
+   cd client
+   pnpm install
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Configure environment variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```bash
+   cp .env.example .env
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+   - `VITE_API_URL` must point at the API server.
+   - If you are using the deployed API, set `VITE_API_URL=https://githubgraph.vercel.app`.
+   - If you are running the backend yourself, set it to your backend URL.
+
+3. Start the dev server
+
+   ```bash
+   pnpm dev
+   ```
+
+Open the URL printed by Vite.
+
+## Scripts
+
+- `pnpm dev`: start Vite dev server
+- `pnpm build`: typecheck and build for production
+- `pnpm preview`: preview the production build
+- `pnpm lint`: run ESLint
+
+## Notes
+
+- This client expects the backend to expose `POST /github` at `VITE_API_URL`.
+- Secrets must not be stored in the client; keep tokens in `server/.env` only.
