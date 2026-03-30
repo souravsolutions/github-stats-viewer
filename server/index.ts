@@ -189,8 +189,8 @@ app.post("/github", async (req: Request, res: ExpressResponse) => {
       });
 
       const result = (await response.json()) as GraphQLResult;
-
       if (!result.data?.user) {
+        console.log(result);
         return res.status(404).json({
           error: "User not found",
         });
